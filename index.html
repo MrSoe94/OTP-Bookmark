@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bookmarklet Kode OTP</title>
 <style>
     /* --- Perubahan untuk Full-Screen --- */
@@ -15,52 +16,39 @@
     body {
         font-family: monospace, sans-serif;
         color: #333;
-        /* Padding di body dihapus, dipindahkan ke container */
-        
-        /* --- PERUBAHAN FONT: Memperbesar font dasar --- */
-        font-size: 18px; /* Dari default 16px menjadi 18px */
+        font-size: 18px;
     }
 
     .container {
-        /* Menggunakan Flexbox untuk memastikan container mengisi tinggi layar */
         display: flex;
         flex-direction: column;
-        
         background: white;
-        /* Tinggi diatur 100% dari viewport */
-        height: 100vh;
-        /* Lebar hampir 100%, dengan sedikit jarak di kiri/kanan */
+        min-height: 100vh;
         width: 95%;
-        max-width: none; /* Menghapus batas lebar maksimal sebelumnya */
-        margin: 0 auto; /* Membuat container tetap di tengah horizontal */
-        
+        margin: 0 auto;
         padding: 20px;
-        box-sizing: border-box; /* Penting agar padding tidak menambah total tinggi/lebar */
-        border-radius: 10px 10px 0 0; /* Border radius hanya di atas agar lebih menyatu */
-        box-shadow: 0 -4px 10px rgba(0,0,0,0.1); /* Bayangan di atas */
-        overflow-y: auto; /* Jika konten vertikal terlalu panjang, container bisa di-scroll */
+        box-sizing: border-box;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
     }
     
-    /* --- Akhir Perubahan Full-Screen --- */
-
-    /* --- PERUBAHAN FONT: Memperbesar heading --- */
-    h1 {color: #2c3e50; font-size: 28px; /* Dari 24px menjadi 28px */ }
-    h3 { font-size: 20px; /* Menambahkan ukuran untuk h3 */ }
+    h1 {color: #2c3e50; font-size: 28px;}
+    h3 { font-size: 20px; margin-top: 20px; }
     
     p {font-family: monospace}
     input[type="file"], input[type="text"], textarea {
         margin-top: 10px;
-        padding: 10px; /* Padding sedikit ditambah untuk keseimbangan */
+        padding: 10px;
         font-family: monospace;
         border: 1px solid #ccc;
         border-radius: 6px;
         background: #f9f9f9;
         width: 100%;
         box-sizing: border-box;
-        
-        /* --- PERUBAHAN FONT: Font untuk input --- */
-        font-size: 16px; /* Ukuran yang jelas dan mudah dibaca */
+        font-size: 16px;
     }
+
+    /* Output Fleksibel */
     #output {
         background: #1e1e1e;
         color: #00ff88;
@@ -69,33 +57,32 @@
         margin-top: 20px;
         font-family: monospace;
         white-space: pre-wrap;
-        max-height: 400px;
-        overflow-y: auto;
-        
-        /* --- PERUBAHAN FONT: Font untuk output --- */
+        word-wrap: break-word;
+        min-height: 50px;
+        height: auto;
+        overflow: visible;
         font-size: 16px;
+        border: 1px solid #333;
     }
+
     button {
         margin-top: 15px;
-        padding: 10px 15px; /* Padding ditambah untuk keseimbangan dengan font */
+        padding: 10px 15px;
         background: #3498db;
         color: white;
         border: none;
         border-radius: 6px;
         cursor: pointer;
         font-family: monospace;
-        
-        /* --- PERUBAHAN FONT: Font untuk tombol --- */
         font-size: 16px;
     }
     button:hover {background: #2980b9;}
+
     .radio-group {
         display: flex;
         gap: 15px;
         margin: 10px 0;
-        flex-wrap: wrap; /* Memungkinkan pindah baris di layar kecil */
-        
-        /* --- PERUBAHAN FONT: Font untuk radio group --- */
+        flex-wrap: wrap;
         font-size: 16px;
     }
     .radio-group label {
@@ -103,54 +90,28 @@
         align-items: center;
         gap: 5px;
         cursor: pointer;
-        transition: 0.2s;
     }
-    .radio-group input[type="radio"] {
-        accent-color: #007bff;
-        transform: scale(1.2);
-    }
+
     .footer {
-        margin-top: auto; /* Mendorong footer ke bawah dalam container flex */
-        padding-top: 2rem;
+        margin-top: 40px;
+        padding: 20px 0;
         text-align: center;
-        
-        /* --- PERUBAHAN FONT: Memperbesar font footer --- */
-        font-size: 16px; /* Dari 0.875rem menjadi 16px */
+        font-size: 16px;
         color: #6b7280;
-        flex-shrink: 0; /* Mencegah footer mengecil */
     }
-    .footer a {
-        color: #3b82f6;
-        font-weight: 600;
-        text-decoration: none;
-    }
-    .footer a:hover {text-decoration: underline;}
-    
-    /* CSS untuk fitur lama */
+
     .saved-item {
         background: #f9f9f9;
         border: 1px solid #ddd;
         border-radius: 6px;
-        padding: 12px; /* Padding ditambah */
+        padding: 12px;
         margin-bottom: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        
-        /* --- PERUBAHAN FONT: Font untuk item tersimpan --- */
         font-size: 16px;
     }
-    .saved-item-info {flex-grow: 1;}
-    .saved-item-actions button {
-        margin-left: 5px;
-        padding: 5px 10px;
-        
-        /* --- PERUBAHAN FONT: Font untuk tombol aksi --- */
-        font-size: 14px; /* Sedikit lebih kecil dari tombol utama */
-    }
-    
-    /* CSS untuk fitur baru */
-    /* Drag & Drop Zone */
+
     .drop-zone {
         border: 2px dashed #ccc;
         border-radius: 6px;
@@ -158,10 +119,7 @@
         text-align: center;
         color: #aaa;
         cursor: pointer;
-        transition: all 0.3s ease;
         background: #fafafa;
-        
-        /* --- PERUBAHAN FONT: Font untuk drop zone --- */
         font-size: 16px;
     }
     .drop-zone:hover, .drop-zone.drag-over {
@@ -169,57 +127,27 @@
         background: #eef7ff;
         color: #3498db;
     }
-    .drop-zone i {font-size: 48px;margin-bottom: 10px;}
-    #fileInput, #browserBookmarksInput {display: none;} /* Sembunyikan input file asli */
 
-    /* Progress Indicator (Spinner) */
-    .progress-indicator {
-        display: none; /* Sembunyikan secara default */
-        text-align: center;
-        margin: 20px 0;
-        
-        /* --- PERUBAHAN FONT: Font untuk progress --- */
-        font-size: 16px;
-    }
-    .spinner {
-        border: 4px solid #f3f3f3;
-        border-top: 4px solid #3498db;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 0 auto;
-    }
-    @keyframes spin {0% { transform: rotate(0deg); }100% { transform: rotate(360deg); }}
-
-    /* QR History & Saved Bookmarks - Diberi scroll */
     #savedBookmarklets, #qrHistory {
-        max-height: 250px; /* Batasi tinggi maksimal */
-        overflow-y: auto;    /* Tambahkan scroll vertikal jika konten melebihi batas */
+        max-height: 300px;
+        overflow-y: auto;
         border: 1px solid #eee;
         padding: 10px;
         border-radius: 6px;
         background-color: #fdfdfd;
     }
 
-    .history-container {margin-top: 20px;}
     .history-item {
         background: #f9f9f9;
         border: 1px solid #ddd;
         border-radius: 6px;
-        padding: 12px; /* Padding ditambah */
+        padding: 12px;
         margin-bottom: 8px;
         cursor: pointer;
-        transition: background-color 0.2s;
-        
-        /* --- PERUBAHAN FONT: Font untuk item riwayat --- */
         font-size: 16px;
     }
-    .history-item:hover {background-color: #eef7ff;}
     .history-item .timestamp {
-        
-        /* --- PERUBAHAN FONT: Memperbesar font timestamp --- */
-        font-size: 14px; /* Dari 0.8em menjadi 14px */
+        font-size: 14px;
         color: #888;
     }
 </style>
@@ -228,88 +156,70 @@
 <div class="container">
     <h1>⭐ Bookmarklet Kode OTP</h1>
     <hr>
-    <h3 style="margin-bottom: 5px">👉 Generator Bookmarklet</h3>
-    <p style="margin-top:0">Bookmarklet ini berfungsi untuk menghasilkan kode OTP sesuai secret yang Anda masukkan. Kode OTP akan langsung terisi sesuai penggunaan OTP yang Anda buat.</p>
-    <input type="text" id="bookmarkletCode" placeholder="Masukkan Kode Secret">
-    <input type="text" id="bookmarkletNama" placeholder="Masukkan Nama Bookmarklet">
+    <h3>👉 Generator Bookmarklet</h3>
+    <p>Masukkan secret key Anda untuk membuat bookmarklet pengisi OTP otomatis.</p>
+    <input type="text" id="bookmarkletCode" placeholder="Masukkan Kode Secret (Base32)">
+    <input type="text" id="bookmarkletNama" placeholder="Contoh: Akun Dapodik Saya">
     <div class="radio-group">
-        <p style="font-family: monospace, sans-serif;margin:0">Pilih Penggunaan OTP:</p>
+        <p style="width:100%; margin-bottom:5px;">Pilih Target Input:</p>
         <label><input type="radio" name="bmOption" value="kode2fa" checked> Dapodik</label>
         <label><input type="radio" name="bmOption" value="totp_code"> SDM</label>
         <label><input type="radio" name="bmOption" value="infogtk"> InfoGTK</label>
         <label><input type="radio" name="bmOption" value="otp"> SIASN</label>
     </div>
     <button onclick="generateBookmarklet()">Generate Bookmarklet</button>
-    <p style="margin: 24px 0;font-family: monospace, sans-serif">Bookmarklet: <a id="bookmarkletLink" href="#" target="_blank"></a></p>
+    <p>Link Bookmarklet: <a id="bookmarkletLink" href="#" style="font-weight:bold; color:#3498db;">(Belum dibuat)</a></p>
     
     <hr>
-    <h3>👉 Daftar Bookmarklet Tersimpan</h3>
-    <p>Bookmarklet yang Anda simpan akan muncul di sini. Klik "Generate" untuk membuat linknya kembali.</p>
+    <h3>👉 Daftar Tersimpan</h3>
     <div id="savedBookmarklets"></div>
-    <button onclick="backupData()">💾 Backup Data</button>
-    <input type="file" id="restoreFileInput" accept=".json" style="display:none;">
-    <button onclick="document.getElementById('restoreFileInput').click()">📂 Restore Data</button>
+    <div style="display: flex; gap: 10px;">
+        <button onclick="backupData()">💾 Backup</button>
+        <input type="file" id="restoreFileInput" accept=".json" style="display:none;">
+        <button onclick="document.getElementById('restoreFileInput').click()">📂 Restore</button>
+    </div>
 
     <hr>
-    <h3 style="margin-bottom: 5px">👉 Google Authenticator QR Decoder</h3>
-    <p style="margin-top:0">Seret dan lepas gambar kode QR ke area di bawah, atau klik untuk memilih file.</p>
-    
-    <!-- Progress Indicator -->
-    <div class="progress-indicator" id="progressIndicator">
-        <div class="spinner"></div>
-        <p>Sedang memproses...</p>
-    </div>
-
-    <!-- Drag & Drop Zone -->
+    <h3>👉 Google Authenticator QR Decoder</h3>
     <div class="drop-zone" id="dropZone">
-        <i>📁</i>
-        <p>Seret gambar QR ke sini atau klik untuk memilih</p>
-        <input type="file" id="fileInput" accept="image/*">
+        <i>📷</i>
+        <p>Lepaskan gambar QR di sini atau klik untuk memilih file</p>
+        <input type="file" id="fileInput" accept="image/*" style="display:none;">
     </div>
 
-    <pre id="output">Silakan Upload QR Google Authenticator</pre>
+    <pre id="output">Hasil dekode QR akan muncul di sini...</pre>
     
-    <!-- QR History Section -->
     <div class="history-container">
-        <h3>👉 Riwayat QR Code</h3>
+        <h3>👉 Riwayat QR</h3>
         <div id="qrHistory"></div>
         <button onclick="clearHistory()" style="background:#e74c3c;">Hapus Riwayat</button>
     </div>
 
-    <!-- FITUR BARU: Impor dari Browser -->
     <hr>
-    <h3>👉 Impor Bookmarklet dari Browser</h3>
-    <p style="margin-top:0;">Jika Anda sudah memasang banyak bookmarklet OTP, Anda bisa mengimpornya semua sekaligus.</p>
-    <ol style="font-family: monospace; font-size: 0.9em; padding-left: 20px;">
-        <li>Buka <strong>Bookmark Manager</strong> browser Anda (tekan <kbd>Ctrl+Shift+O</kbd>).</li>
-        <li>Klik menu titik tiga (<strong>⋮</strong>) lalu pilih <strong>Ekspor bookmark</strong>.</li>
-        <li>Simpan file <code>bookmarks.html</code> tersebut.</li>
-        <li>Unggah file <code>bookmarks.html</code> di bawah ini.</li>
-    </ol>
-    <input type="file" id="browserBookmarksInput" accept=".html">
+    <h3>👉 Impor dari Browser</h3>
+    <p style="font-size: 14px;">Upload file <code>bookmarks.html</code> hasil ekspor dari browser Anda.</p>
+    <input type="file" id="browserBookmarksInput" accept=".html" style="display:none;">
     <button onclick="document.getElementById('browserBookmarksInput').click()">📂 Unggah bookmarks.html</button>
-    <div id="importResult" style="margin-top: 15px; font-weight: bold;"></div>
+    <div id="importResult" style="margin-top: 10px; font-size: 14px;"></div>
+
+    <div class="footer">
+        Dibuat untuk mempermudah manajemen OTP &copy; 2024
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/protobufjs/dist/protobuf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
 <script>
-// --- Inisialisasi dan Manajemen Data ---
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     displaySavedBookmarklets();
+    displayQRHistory();
+    initDragAndDrop();
     document.getElementById('restoreFileInput').addEventListener('change', handleRestoreFile);
     document.getElementById('browserBookmarksInput').addEventListener('change', handleBrowserBookmarksImport);
-    
-    // Inisialisasi Drag & Drop
-    initDragAndDrop();
-    
-    // Tampilkan riwayat QR saat halaman dimuat
-    displayQRHistory();
 });
 
 function getSavedBookmarklets() {
-    const data = localStorage.getItem('otpBookmarklets');
-    return data ? JSON.parse(data) : [];
+    return JSON.parse(localStorage.getItem('otpBookmarklets') || '[]');
 }
 
 function saveBookmarklets(data) {
@@ -319,22 +229,15 @@ function saveBookmarklets(data) {
 function displaySavedBookmarklets() {
     const savedData = getSavedBookmarklets();
     const container = document.getElementById('savedBookmarklets');
-    if (!container) return;
-    container.innerHTML = '';
-    if (savedData.length === 0) {
-        container.innerHTML = '<p style="color: #888;">Belum ada bookmarklet yang disimpan.</p>';
-        return;
-    }
+    container.innerHTML = savedData.length ? '' : '<p style="color:#888">Belum ada data.</p>';
     savedData.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'saved-item';
         div.innerHTML = `
-            <div class="saved-item-info">
-                <strong>${item.nama}</strong> (${item.penggunaan})
-            </div>
-            <div class="saved-item-actions">
-                <button onclick="generateFromSaved(${index})">Generate</button>
-                <button onclick="deleteSaved(${index})" style="background:#e74c3c;">Hapus</button>
+            <div><strong>${item.nama}</strong> <small>(${item.penggunaan})</small></div>
+            <div>
+                <button onclick="generateFromSaved(${index})">Pakai</button>
+                <button onclick="deleteSaved(${index})" style="background:#e74c3c;">X</button>
             </div>
         `;
         container.appendChild(div);
@@ -345,20 +248,16 @@ function generateFromSaved(index) {
     const savedData = getSavedBookmarklets();
     const item = savedData[index];
     if (item) {
-        const codeInput = document.getElementById("bookmarkletCode");
-        const namaInput = document.getElementById("bookmarkletNama");
-        const radioOption = document.querySelector(`input[name="bmOption"][value="${item.penggunaan}"]`);
-
-        if (codeInput) codeInput.value = item.secret;
-        if (namaInput) namaInput.value = item.nama;
-        if (radioOption) radioOption.checked = true;
-
+        document.getElementById("bookmarkletCode").value = item.secret;
+        document.getElementById("bookmarkletNama").value = item.nama;
+        const radio = document.querySelector(`input[name="bmOption"][value="${item.penggunaan}"]`);
+        if (radio) radio.checked = true;
         generateBookmarklet();
     }
 }
 
 function deleteSaved(index) {
-    if (confirm('Apakah Anda yakin ingin menghapus bookmarklet ini?')) {
+    if (confirm('Hapus bookmarklet ini?')) {
         let savedData = getSavedBookmarklets();
         savedData.splice(index, 1);
         saveBookmarklets(savedData);
@@ -366,263 +265,227 @@ function deleteSaved(index) {
     }
 }
 
-// --- Generator Bookmarklet ---
 function generateBookmarklet() {
-    const codeInput = document.getElementById("bookmarkletCode");
-    const namaInput = document.getElementById("bookmarkletNama");
-    const selectedRadio = document.querySelector('input[name="bmOption"]:checked');
+    const code = document.getElementById("bookmarkletCode").value.trim();
+    const nama = document.getElementById("bookmarkletNama").value.trim();
+    const target = document.querySelector('input[name="bmOption"]:checked').value;
 
-    if (!codeInput || !namaInput || !selectedRadio) {
-        alert("Elemen form tidak ditemukan. Pastikan HTML tidak berubah.");
-        return;
-    }
-
-    const code = codeInput.value.trim();
-    const namacode = namaInput.value.trim();
-    const selected2fa = selectedRadio.value;
-
-    if (!code) {
-        alert("Masukkan kode secret terlebih dahulu.");
-        return;
-    } else if (!namacode) {
-        alert("Masukkan nama bookmark terlebih dahulu.");
-        return;
-    }
+    if (!code || !nama) return alert("Isi semua field!");
 
     let savedData = getSavedBookmarklets();
-    if (!savedData.some(item => item.nama === namacode)) {
-        savedData.push({ nama: namacode, secret: code, penggunaan: selected2fa });
+    if (!savedData.some(i => i.nama === nama)) {
+        savedData.push({ nama, secret: code, penggunaan: target });
         saveBookmarklets(savedData);
         displaySavedBookmarklets();
     }
 
-    let jsCode = `var secretKey="${code}";var jadiKey="";function base32Decode(e){for(var t=e.toUpperCase().replace(/=+$/,"").replace(/\\s+/g,""),r=0,n=0,a=[],o=0;o<t.length;o++){var c="ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".indexOf(t[o]);if(-1===c)throw new Error("Invalid Base32 character: "+t[o]);n=n<<5|c,(r+=5)>=8&&(a.push(n>>>r-8&255),r-=8)}return new Uint8Array(a)}function intToBuffer(e){var t=new ArrayBuffer(8),r=new DataView(t),n=Math.floor(e/Math.pow(2,32)),a=e>>>0;return r.setUint32(0,n),r.setUint32(4,a),new Uint8Array(t)}function generateTOTP(e,t,r,n){t=t||6,r=r||30,n=n||"SHA-1";var a=base32Decode(e),o=Math.floor(Date.now()/1e3),c=intToBuffer(Math.floor(o/r));return crypto.subtle.importKey("raw",a,{name:"HMAC",hash:{name:n}},!1,["sign"]).then(function(e){return crypto.subtle.sign("HMAC",e,c)}).then(function(e){var r=new Uint8Array(e),n=15&r[r.length-1];return(((127&r[n])<<24|(255&r[n+1])<<16|(255&r[n+2])<<8|255&r[n+3])%Math.pow(10,t)).toString().padStart(t,"0")})}generateTOTP(secretKey).then(function(e){jadiKey=e;var jotp="${selected2fa}";if("infogtk"==jotp){const e=document.querySelectorAll("#otpForm .otp-input");jadiKey.split("").forEach((t,o)=>{e[o]&&(e[o].value=t)})}else document.getElementById("${selected2fa}").value=e;}).catch(function(e){alert("Error: id tidak ditemukan untuk OTP " + jadiKey)});`;
-    const bookmarklet = "javascript:(function(){" + encodeURIComponent(jsCode) + "})();";
+    const jsCode = `var secretKey="${code}";function base32Decode(e){for(var t=e.toUpperCase().replace(/=+$/,"").replace(/\\s+/g,""),r=0,n=0,a=[],o=0;o<t.length;o++){var c="ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".indexOf(t[o]);if(-1===c)throw new Error("Invalid Base32 character: "+t[o]);n=n<<5|c,(r+=5)>=8&&(a.push(n>>>r-8&255),r-=8)}return new Uint8Array(a)}function intToBuffer(e){var t=new ArrayBuffer(8),r=new DataView(t),n=Math.floor(e/Math.pow(2,32)),a=e>>>0;return r.setUint32(0,n),r.setUint32(4,a),new Uint8Array(t)}function generateTOTP(e,t,r,n){t=t||6,r=r||30,n=n||"SHA-1";var a=base32Decode(e),o=Math.floor(Date.now()/1e3),c=intToBuffer(Math.floor(o/r));return crypto.subtle.importKey("raw",a,{name:"HMAC",hash:{name:n}},!1,["sign"]).then(f=>crypto.subtle.sign("HMAC",f,c)).then(f=>{var r=new Uint8Array(f),n=15&r[r.length-1];return(((127&r[n])<<24|(255&r[n+1])<<16|(255&r[n+2])<<8|255&r[n+3])%Math.pow(10,t)).toString().padStart(t,"0")})}generateTOTP(secretKey).then(k=>{var j="${target}";if(j=="infogtk"){document.querySelectorAll("#otpForm .otp-input").forEach((el,i)=>el.value=k[i])}else{var el=document.getElementById(j);if(el)el.value=k;else alert("Input ID "+j+" tidak ditemukan di halaman ini")}}).catch(e=>alert("Gagal generate OTP"));`;
     
     const link = document.getElementById("bookmarkletLink");
-    if (link) {
-        link.href = bookmarklet;
-        link.textContent = namacode;
-    }
+    link.href = "javascript:(function(){" + encodeURIComponent(jsCode) + "})();";
+    link.textContent = "Drag Me: " + nama;
 }
 
-// --- Backup & Restore ---
-function backupData() {
-    const savedData = getSavedBookmarklets();
-    if (savedData.length === 0) {
-        alert("Tidak ada data untuk dibackup.");
-        return;
-    }
-    const dataStr = JSON.stringify(savedData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `otp_bookmarklet_backup_${new Date().toISOString().slice(0, 10)}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    alert("Backup berhasil diunduh!");
-}
-
-function handleRestoreFile(evt) {
-    const file = evt.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const restoredData = JSON.parse(e.target.result);
-            if (Array.isArray(restoredData)) {
-                saveBookmarklets(restoredData);
-                displaySavedBookmarklets();
-                alert("Data berhasil dipulihkan!");
-            } else {
-                throw new Error("Format file tidak valid.");
-            }
-        } catch (err) {
-            alert("Gagal memulihkan data: " + err.message);
-        }
+function initDragAndDrop() {
+    const zone = document.getElementById('dropZone');
+    const input = document.getElementById('fileInput');
+    zone.onclick = () => input.click();
+    zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('drag-over'); };
+    zone.ondragleave = () => zone.classList.remove('drag-over');
+    zone.ondrop = (e) => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (e.dataTransfer.files.length) handleQRFile(e.dataTransfer.files[0]);
     };
-    reader.readAsText(file);
-    evt.target.value = '';
+    input.onchange = (e) => { if (e.target.files.length) handleQRFile(e.target.files[0]); };
 }
 
-// --- FITUR BARU: Impor dari Browser ---
-function handleBrowserBookmarksImport(evt) {
-    const file = evt.target.files[0];
-    if (!file) return;
-
-    const resultDiv = document.getElementById('importResult');
-    resultDiv.textContent = "Sedang memproses file bookmark...";
-
+function handleQRFile(file) {
     const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const htmlContent = e.target.result;
-            const foundBookmarklets = parseBookmarksHTML(htmlContent);
+    reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width; canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const qr = jsQR(ctx.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height);
+            if (qr) processQR(qr.data); else document.getElementById('output').textContent = "QR tidak terdeteksi.";
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
 
-            if (foundBookmarklets.length === 0) {
-                resultDiv.textContent = "⚠️ Tidak ditemukan bookmarklet OTP yang dikenali di file tersebut.";
-                return;
-            }
+function base32Encode(bytes) {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let bits = 0, value = 0, output = '';
+    for (let i = 0; i < bytes.length; i++) {
+        value = (value << 8) | bytes[i];
+        bits += 8;
+        while (bits >= 5) {
+            output += alphabet[(value >>> (bits - 5)) & 31];
+            bits -= 5;
+        }
+    }
+    if (bits > 0) output += alphabet[(value << (5 - bits)) & 31];
+    return output;
+}
 
-            let savedData = getSavedBookmarklets();
-            let addedCount = 0;
-            let skippedCount = 0;
+function processQR(data) {
+    const out = document.getElementById('output');
+    try {
+        if (data.startsWith("otpauth://")) {
+            const url = new URL(data);
+            const secret = url.searchParams.get("secret");
+            const name = decodeURIComponent(url.pathname.split(':').pop().replace(/^\/\//, ''));
+            out.textContent = `✅ Berhasil Dekode:\nNama: ${name}\nSecret: ${secret}`;
+            document.getElementById("bookmarkletCode").value = secret;
+            document.getElementById("bookmarkletNama").value = name;
+            saveToHistory({ name, secret, issuer: url.searchParams.get("issuer") || "N/A" });
+        } else if (data.includes("otpauth-migration")) {
+            const url = new URL(data);
+            let dataParam = url.searchParams.get("data");
+            if (!dataParam) { out.textContent = "Data migrasi tidak ditemukan."; return; }
+            
+            dataParam = dataParam.replace(/ /g, '+');
+            const binary = atob(dataParam);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
 
-            foundBookmarklets.forEach(item => {
-                // Cek duplikat berdasarkan nama
-                if (!savedData.some(saved => saved.nama === item.nama)) {
-                    savedData.push(item);
-                    addedCount++;
-                } else {
-                    skippedCount++;
+            const root = protobuf.Root.fromJSON({
+                nested: {
+                    MigrationPayload: {
+                        fields: {
+                            otpParameters: { rule: "repeated", type: "OtpParameters", id: 1 },
+                            version: { type: "int32", id: 2 },
+                            batchSize: { type: "int32", id: 3 },
+                            batchIndex: { type: "int32", id: 4 },
+                            batchId: { type: "bytes", id: 5 }
+                        }
+                    },
+                    OtpParameters: {
+                        fields: {
+                            secret: { type: "bytes", id: 1 },
+                            name: { type: "string", id: 2 },
+                            issuer: { type: "string", id: 3 },
+                            algorithm: { type: "int32", id: 4 },
+                            digits: { type: "int32", id: 5 },
+                            type: { type: "int32", id: 6 },
+                            counter: { type: "int64", id: 7 }
+                        }
+                    }
                 }
             });
 
+            const MigrationPayload = root.lookupType("MigrationPayload");
+            const payload = MigrationPayload.decode(bytes);
+            
+            if (payload.otpParameters && payload.otpParameters.length > 0) {
+                let resultText = `✅ Ditemukan ${payload.otpParameters.length} Akun:\n\n`;
+                payload.otpParameters.forEach((p, i) => {
+                    const secretB32 = base32Encode(p.secret);
+                    resultText += `📌 [${i+1}] ${p.name}\nSecret: ${secretB32}\n\n`;
+                    saveToHistory({ name: p.name, secret: secretB32, issuer: p.issuer });
+                    if (i === 0) {
+                        document.getElementById("bookmarkletCode").value = secretB32;
+                        document.getElementById("bookmarkletNama").value = p.name;
+                    }
+                });
+                out.textContent = resultText;
+            } else {
+                out.textContent = "Payload kosong.";
+            }
+        } else {
+            out.textContent = "Format QR tidak dikenali.";
+        }
+    } catch (e) {
+        out.textContent = "Error Dekode: " + e.message;
+    }
+}
+
+function saveToHistory(item) {
+    let history = JSON.parse(localStorage.getItem('qrScanHistory') || '[]');
+    if (!history.some(h => h.secret === item.secret)) {
+        item.timestamp = new Date().toISOString();
+        history.unshift(item);
+        localStorage.setItem('qrScanHistory', JSON.stringify(history.slice(0, 20)));
+        displayQRHistory();
+    }
+}
+
+function displayQRHistory() {
+    const history = JSON.parse(localStorage.getItem('qrScanHistory') || '[]');
+    const container = document.getElementById('qrHistory');
+    container.innerHTML = history.length ? '' : '<p style="color:#888">Belum ada riwayat.</p>';
+    history.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerHTML = `<strong>${item.name}</strong><br><small>${item.secret}</small>`;
+        div.onclick = () => {
+            document.getElementById("bookmarkletCode").value = item.secret;
+            document.getElementById("bookmarkletNama").value = item.name;
+        };
+        container.appendChild(div);
+    });
+}
+
+function backupData() {
+    const data = localStorage.getItem('otpBookmarklets');
+    if(!data) return alert("Tidak ada data.");
+    const blob = new Blob([data], {type: "application/json"});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `backup_otp_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+}
+
+function handleRestoreFile(e) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        try {
+            JSON.parse(ev.target.result);
+            localStorage.setItem('otpBookmarklets', ev.target.result);
+            displaySavedBookmarklets();
+            alert("Restore berhasil!");
+        } catch(e) { alert("File JSON tidak valid."); }
+    };
+    reader.readAsText(e.target.files[0]);
+}
+
+function handleBrowserBookmarksImport(e) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        const html = ev.target.result;
+        const matches = [...html.matchAll(/var secretKey="([^"]+)";/g)];
+        const names = [...html.matchAll(/<A [^>]*>([^<]+)<\/A>/g)];
+        
+        if (matches.length) {
+            let savedData = getSavedBookmarklets();
+            let added = 0;
+            matches.forEach((m, i) => {
+                const secret = m[1];
+                const nama = names[i] ? names[i][1] : "Imported OTP";
+                if (!savedData.some(s => s.secret === secret)) {
+                    savedData.push({ nama, secret, penggunaan: "kode2fa" });
+                    added++;
+                }
+            });
             saveBookmarklets(savedData);
             displaySavedBookmarklets();
-            
-            resultDiv.innerHTML = `✅ Selesai! <strong>${addedCount}</strong> bookmarklet baru ditambahkan. <strong>${skippedCount}</strong> dilewati karena sudah ada.`;
-
-        } catch (err) {
-            resultDiv.textContent = "❌ Error: Gagal memproses file. " + err.message;
+            alert(`Berhasil mengimpor ${added} bookmarklet baru.`);
+        } else {
+            alert("Tidak ditemukan script bookmarklet OTP yang cocok.");
         }
     };
-    reader.onerror = function() {
-        resultDiv.textContent = "❌ Error: Gagal membaca file.";
-    };
-    reader.readAsText(file);
-    evt.target.value = ''; // Reset input
+    reader.readAsText(e.target.files[0]);
 }
 
-function parseBookmarksHTML(htmlContent) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, 'text/html');
-    const links = doc.querySelectorAll('a[href^="javascript:"]');
-    const foundBookmarklets = [];
-
-    links.forEach(link => {
-        const href = link.getAttribute('href');
-        const name = link.textContent.trim();
-
-        // Decode the javascript: URL
-        let decodedScript;
-        try {
-            decodedScript = decodeURIComponent(href.substring(11)); // Remove 'javascript:'
-        } catch (e) {
-            return; // Skip this one
-        }
-
-        // Use regex to find the secret key
-        const secretMatch = decodedScript.match(/var secretKey="([^"]+)";/);
-        if (!secretMatch) {
-            return; // Not one of our bookmarklets
-        }
-        const secret = secretMatch[1];
-
-        // Determine the platform
-        let platform = 'unknown';
-        if (decodedScript.includes('getElementById("kode2fa")')) platform = 'kode2fa';
-        else if (decodedScript.includes('getElementById("totp_code")')) platform = 'totp_code';
-        else if (decodedScript.includes('getElementById("infogtk")')) platform = 'infogtk';
-        else if (decodedScript.includes('getElementById("otp")')) platform = 'otp';
-        
-        foundBookmarklets.push({ nama: name, secret: secret, penggunaan: platform });
-    });
-
-    return foundBookmarklets;
-}
-
-
-// --- QR Decoder & Fitur Lainnya ---
-// Inisialisasi Drag & Drop
-function initDragAndDrop() {
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    dropZone.addEventListener('click', () => fileInput.click());
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, preventDefaults, false);
-    });
-    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
-    });
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
-    });
-    dropZone.addEventListener('drop', handleDrop, false);
-    function handleDrop(e) { const dt = e.dataTransfer; const files = dt.files; if (files.length > 0) { handleFile({ target: { files: files } }); } }
-    fileInput.addEventListener('change', handleFile);
-}
-
-function toggleProgressIndicator(show) {
-    const indicator = document.getElementById('progressIndicator');
-    if (indicator) { indicator.style.display = show ? 'block' : 'none'; }
-}
-
-function handleFile(evt) {
-    const file = evt.target.files[0];
-    if (!file) return;
-    toggleProgressIndicator(true);
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height;
-            const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, imageData.width, imageData.height);
-            toggleProgressIndicator(false);
-            if (code) { processQR(code.data); } else { const outputEl = document.getElementById('output'); if (outputEl) outputEl.textContent = "❌ QR code tidak terbaca pada gambar ini."; }
-        };
-        img.onerror = function() { toggleProgressIndicator(false); const outputEl = document.getElementById('output'); if (outputEl) outputEl.textContent = "❌ Gagal memuat gambar. Pastikan file adalah gambar yang valid."; };
-        img.src = e.target.result;
-    };
-    reader.onerror = function() { toggleProgressIndicator(false); const outputEl = document.getElementById('output'); if (outputEl) outputEl.textContent = "❌ Gagal membaca file."; };
-    reader.readAsDataURL(file);
-    evt.target.value = '';
-}
-
-function processQR(qrText) {
-    const outputEl = document.getElementById('output'); if (!outputEl) return;
-    try {
-        if (qrText.startsWith("otpauth://")) {
-            const url = new URL(qrText); const secret = url.searchParams.get("secret"); const issuer = url.searchParams.get("issuer") || "(tidak ada)"; const label = decodeURIComponent(url.pathname.replace(/^\/\//, ''));
-            if (secret) {
-                const result = { type: 'OTP Auth', name: label, issuer: issuer, secret: secret };
-                outputEl.textContent = `📌 ${result.type}\nNama   : ${result.name}\nIssuer : ${result.issuer}\nSecret : ${result.secret}`;
-                const codeInput = document.getElementById("bookmarkletCode"); const namaInput = document.getElementById("bookmarkletNama");
-                if (codeInput) codeInput.value = result.secret; if (namaInput) namaInput.value = result.name; saveToHistory(result);
-            } else { outputEl.textContent = "⚠️ Secret tidak ditemukan di QR."; } return;
-        }
-        const url = new URL(qrText); let dataParam = url.searchParams.get("data");
-        if (!dataParam) { outputEl.textContent = "⚠️ Parameter data= tidak ditemukan pada URL QR."; return; }
-        dataParam = dataParam.replace(/ /g, '+').replace(/%20/g, '+').replace(/%2B/gi, '+');
-        const binary = atob(dataParam); const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) { bytes[i] = binary.charCodeAt(i); }
-        const root = protobuf.Root.fromJSON({ nested: { MigrationPayload: { fields: { otpParameters: { rule: "repeated", type: "OtpParameters", id: 1 }, version: { type: "int32", id: 2 }, batchSize: { type: "int32", id: 3 }, batchIndex: { type: "int32", id: 4 }, batchId: { type: "bytes", id: 5 } } }, OtpParameters: { fields: { secret: { type: "bytes", id: 1 }, name: { type: "string", id: 2 }, issuer: { type: "string", id: 3 }, algorithm: { type: "int32", id: 4 }, digits: { type: "int32", id: 5 }, type: { type: "int32", id: 6 }, counter: { type: "int64", id: 7 } } } } });
-        const MigrationPayload = root.lookupType("MigrationPayload"); const payload = MigrationPayload.decode(bytes);
-        if (!payload.otpParameters || payload.otpParameters.length === 0) { outputEl.textContent = "⚠️ Tidak ada akun ditemukan di payload migrasi."; return; }
-        let resultText = ""; payload.otpParameters.forEach((param, i) => {
-            const secretBase32 = base32Encode(param.secret); const result = { type: 'Migration Payload', name: param.name, issuer: param.issuer, secret: secretBase32 };
-            resultText += `📌 Akun ${i+1}\nNama   : ${result.name}\nIssuer : ${result.issuer}\nSecret : ${result.secret}\n\n`; saveToHistory(result);
-        }); outputEl.textContent = resultText;
-    } catch (err) { outputEl.textContent = "❌ Error saat memproses QR: " + err.message; }
-}
-
-// --- QR History Management ---
-function getQRHistory() { const history = localStorage.getItem('qrScanHistory'); return history ? JSON.parse(history) : []; }
-function saveToHistory(data) { let history = getQRHistory(); if (!history.some(item => item.secret === data.secret)) { data.timestamp = new Date().toISOString(); history.unshift(data); if (history.length > 20) { history = history.slice(0, 20); } localStorage.setItem('qrScanHistory', JSON.stringify(history)); displayQRHistory(); } }
-function displayQRHistory() { const history = getQRHistory(); const container = document.getElementById('qrHistory'); if (!container) return; container.innerHTML = ''; if (history.length === 0) { container.innerHTML = '<p style="color: #888;">Belum ada riwayat QR code.</p>'; return; } history.forEach((item, index) => { const div = document.createElement('div'); div.className = 'history-item'; const date = new Date(item.timestamp).toLocaleString('id-ID'); div.innerHTML = `<strong>${item.name}</strong> (${item.issuer})<div class="timestamp">${date}</div>`; div.onclick = () => useHistoryItem(item); container.appendChild(div); }); }
-function useHistoryItem(item) { const codeInput = document.getElementById("bookmarkletCode"); const namaInput = document.getElementById("bookmarkletNama"); if (codeInput) codeInput.value = item.secret; if (namaInput) namaInput.value = item.name; }
-function clearHistory() { if (confirm('Apakah Anda yakin ingin menghapus semua riwayat QR code?')) { localStorage.removeItem('qrScanHistory'); displayQRHistory(); } }
-
-function base32Encode(bytes) {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let bits = 0, value = 0, output = '';
-    for (let i = 0; i < bytes.length; i++) { value = (value << 8) | bytes[i]; bits += 8; while (bits >= 5) { output += alphabet[(value >>> (bits - 5)) & 31]; bits -= 5; } }
-    if (bits > 0) { output += alphabet[(value << (5 - bits)) & 31]; } return output;
+function clearHistory() {
+    if(confirm('Hapus riwayat QR?')) {
+        localStorage.removeItem('qrScanHistory');
+        displayQRHistory();
+    }
 }
 </script>
 </body>
