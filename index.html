@@ -283,7 +283,7 @@ function generateBookmarklet() {
     
     const link = document.getElementById("bookmarkletLink");
     link.href = "javascript:(function(){" + encodeURIComponent(jsCode) + "})();";
-    link.textContent = "Drag Me: " + nama;
+    link.textContent = nama;
 }
 
 function initDragAndDrop() {
